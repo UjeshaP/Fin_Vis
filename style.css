@@ -1,0 +1,515 @@
+/* ==========================================================================
+   1. Core Layout & Global Theme Setup
+   ========================================================================== */
+:root {
+    --bg-main: #0a0e17;          /* Ultra-dark workspace background */
+    --bg-card: #121826;          /* High-contrast slate tile card fill */
+    --border-color: #202b42;     /* Premium clean panel border lines */
+    --text-primary: #ffffff;     /* Crisp high-readability text headers */
+    --text-muted: #8fa0c2;        /* Soft accessibility sub-text labels */
+    --accent-teal: #00f0b5;      /* Vibrant mint/teal highlight anchor */
+    --accent-glow: rgba(0, 240, 181, 0.15);
+    --slider-blue: #007aff;      /* Vibrant interactive slider tracking color */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-muted);
+    padding: 40px 24px;
+    max-width: 1300px;
+    margin: 0 auto;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+    color: var(--text-primary);
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 28px;
+}
+
+/* ==========================================================================
+   2. Input Forms & Controls Configurations
+   ========================================================================== */
+input[type="number"], 
+select {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-primary);
+    padding: 12px 16px;
+    font-size: 14px;
+    margin-right: 12px;
+    margin-bottom: 16px;
+    min-width: 180px;
+    transition: all 0.2s ease;
+}
+
+input[type="number"]::placeholder {
+    color: #4f6185;
+}
+
+input[type="number"]:focus, 
+select:focus {
+    outline: none;
+    border-color: var(--accent-teal);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+label {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Interactive Action Trigger Button */
+button {
+    background: linear-gradient(135deg, var(--accent-teal), #00cfa2);
+    color: #050b14;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 28px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 240, 181, 0.2);
+    transition: all 0.2s ease;
+    vertical-align: middle;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 240, 181, 0.35);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+#lifeEventWrapper {
+    background-color: #161f33;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px dashed var(--border-color);
+    display: inline-flex;
+    align-items: center;
+}
+
+#lifeEvent {
+    margin: 0 0 0 8px;
+    background-color: var(--bg-main);
+}
+
+.hidden {
+    display: none !important; 
+}
+
+/* ==========================================================================
+   3. Three-Column Flexible Layout Architecture
+   ========================================================================== */
+#results h2 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+}
+
+.results-layout-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch; /* Cards evaluate to equal height heights seamlessly */
+    gap: 24px;
+    margin-top: 10px;
+}
+
+/* Uniform card template styles */
+#textOutputs, 
+#sliderControls, 
+#infoPanel {
+    flex: 1;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Left Column Optimization */
+#textOutputs {
+    max-width: 32%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#textOutputs h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-muted);
+    padding: 10px 0;
+    border-bottom: 1px solid #1b2438;
+}
+
+#textOutputs h3:last-child {
+    border-bottom: none;
+}
+
+/* Highlight dynamic monetary returns within outputs */
+#textOutputs h3 strong, 
+#textOutputs h3 span {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Center Adjustment Dashboard Column */
+#sliderControls {
+    max-width: 36%;
+}
+
+#sliderControls h3 {
+    color: var(--text-primary);
+    font-size: 18px;
+    margin-bottom: 24px;
+}
+
+/* Right Explanatory Summary Panel Column */
+#infoPanel {
+    max-width: 32%;
+}
+
+#infoPanel h3 {
+    color: var(--text-primary);
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+#infoPanel p {
+    font-size: 14px;
+    margin-bottom: 16px;
+    line-height: 1.6;
+}
+
+#infoPanel strong {
+    color: var(--text-primary);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 2px;
+}
+
+#infoPanel hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 20px 0;
+}
+
+/* ==========================================================================
+   4. Custom High-Performance Range Sliders
+   ========================================================================== */
+.slider-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.slider-group label {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.slider-group span {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* Track background line layout updates */
+input[type="range"]::-webkit-slider-runnable-track {
+    background: #1b2438;
+    height: 6px;
+    border-radius: 3px;
+}
+
+input[type="range"]::-moz-range-track {
+    background: #1b2438;
+    height: 6px;
+    border-radius: 3px;
+}
+
+/* Interactive thumb element indicators */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: -5px; /* Centers thumb vertically on track */
+    background-color: var(--slider-blue);
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 122, 255, 0.4);
+    transition: transform 0.1s ease;
+}
+
+input[type="range"]::-moz-range-thumb {
+    border: none;
+    background-color: var(--slider-blue);
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 122, 255, 0.4);
+    transition: transform 0.1s ease;
+}
+
+input[type="range"]:active::-webkit-slider-thumb {
+    transform: scale(1.2);
+}
+
+/* ==========================================================================
+   5. Interactive Reference Tooltips
+   ========================================================================== */
+.tooltip-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-left: 6px;
+    background-color: #202b42;
+    color: var(--text-muted);
+    border-radius: 50%;
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 16px;
+    cursor: help;
+    position: relative;
+    vertical-align: middle;
+}
+
+.tooltip-icon:hover {
+    background-color: var(--slider-blue);
+    color: #ffffff;
+}
+
+.tooltip-content {
+    position: absolute;
+    top: 140%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    padding: 14px;
+    background-color: #1c2333;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    border-radius: 8px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 1.5;
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 9999;
+    pointer-events: none; 
+    cursor: default;
+    user-select: text;
+}
+
+.tooltip-content::before {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent #1c2333 transparent;
+}
+
+.tooltip-icon:hover .tooltip-content {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(2px);
+}
+
+.tooltip-content strong {
+    color: var(--text-primary);
+}
+
+.tooltip-content a {
+    display: block;
+    margin-top: 8px;
+    color: var(--accent-teal);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.tooltip-content a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   6. Fluid Breakpoint Optimization (Responsive Layout)
+   ========================================================================== */
+@media (max-width: 1024px) {
+    .results-layout-container {
+        flex-direction: column;
+    }
+    #textOutputs, 
+    #sliderControls, 
+    #infoPanel {
+        max-width: 100%;
+    }
+}
+/* ==========================================================================
+   7. SPA Global Header & Navigation Configurations
+   ========================================================================== */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    margin-bottom: 48px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+    text-transform: uppercase;
+}
+
+.navbar {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+
+.nav-link:hover, 
+.nav-link.active {
+    color: var(--accent-teal);
+}
+
+/* ==========================================================================
+   8. Home Hero Panel Framework Configurations
+   ========================================================================== */
+.hero-container {
+    padding: 60px 0;
+    max-width: 720px;
+}
+
+.system-status-indicator {
+    display: inline-block;
+    color: var(--accent-teal);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin-top: 12px;
+}
+
+/* ==========================================================================
+   9. Structural Layout & Section Animations
+   ========================================================================== */
+.page-section {
+    animation: layoutFadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.content-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+}
+
+/* Advanced Research Layout Cards Configuration */
+.research-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 24px;
+    max-width: 1100px;
+}
+
+.research-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: border-color 0.25s ease;
+}
+
+.research-card.highlighted {
+    border-color: rgba(0, 240, 181, 0.35);
+}
+
+.research-card .badge {
+    display: inline-block;
+    background-color: var(--accent-glow);
+    color: var(--accent-teal);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    letter-spacing: 0.05em;
+}
+
+.research-card h2 {
+    color: var(--text-primary);
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.research-card .subtitle {
+    color: var(--accent-teal);
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+@keyframes layoutFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
