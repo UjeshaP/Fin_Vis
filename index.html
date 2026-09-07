@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Forward — Financial Strategy Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="app-container" style="padding:2rem;max-width:1250px;margin:0 auto;">
+    <header>
+        <p>FINANCE FORWARD</p>
+        <h1>Financial Strategy Simulator</h1>
+        <p>Model debt, savings, cash flow, and financial shocks — then compare strategies instead of guessing.</p>
+    </header>
+
+    <section class="card">
+        <h2>1. Build Your Financial Profile</h2>
+        <div class="input-grid">
+            <label>Loan Amount <input type="number" id="GAmt" min="0" step="100" placeholder="$30,000"></label>
+            <label>Annual Interest Rate (%) <input type="number" id="GIr" min="0" step="0.01" placeholder="7.0"></label>
+            <label>Take-Home Salary / Year <input type="number" id="GSal" min="0" step="1000" placeholder="$60,000"></label>
+            <label>Monthly Cost of Living <input type="number" id="GCol" min="0" step="50" placeholder="$2,500"></label>
+            <label>Current Monthly Savings <input type="number" id="Gsav" min="0" step="50" placeholder="$500"></label>
+            <label>Annual Salary Growth (%) <input type="number" id="salaryGrowth" min="-20" max="30" step="0.1" value="3"></label>
+            <label>Annual Inflation (%) <input type="number" id="inflationRate" min="0" max="30" step="0.1" value="3"></label>
+            <label>Simulation Horizon (Years)
+                <select id="horizon">
+                    <option value="5">5</option><option value="10" selected>10</option>
+                    <option value="20">20</option><option value="30">30</option>
+                </select>
+            </label>
+        </div>
+
+        <div style="margin-top:1rem;">
+            <label>Interest Model:
+                <select id="interestType">
+                    <option value="fixed" selected>Fixed Rate</option>
+                    <option value="variable">Variable Rate (±0.5% annual reset)</option>
+                </select>
+            </label>
+        </div>
+
+        <button id="calculateBtn">Build Financial Model</button>
+        <p id="errorMessage" class="error"></p>
+    </section>
+
+    <section id="results" class="hidden">
+        <div class="card">
+            <h2>2. Your Financial Snapshot</h2>
+            <div class="metrics-grid">
+                <div><span>Monthly Take-Home</span><strong id="monthlyIncome">$0</strong></div>
+                <div><span>Monthly Expenses</span><strong id="monthlyExpenses">$0</strong></div>
+                <div><span>Monthly Savings</span><strong id="monthlySavings">$0</strong></div>
+                <div><span>Available for Strategy</span><strong id="monthlyDisposable">$0</strong></div>
+                <div><span>Debt-to-Income</span><strong id="dti">0%</strong></div>
+                <div><span>Required 10-Year Payment</span><strong id="requiredPayment">$0</strong></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>3. Stress-Test Your Plan</h2>
+            <div class="input-grid">
+                <label>Life Event
+                    <select id="lifeEvent">
+                        <option value="none">Baseline — Everything Goes Smoothly</option>
+                        <option value="jobLoss">Job Loss — 4 Months Without Income</option>
+                        <option value="medical">Medical Emergency — $4,500 Expense</option>
+                        <option value="disaster">Disaster — $3,000 Expense</option>
+                        <option value="inflationShock">Inflation Shock — +15% Expenses</option>
+                        <option value="divorce">Household Split — +50% Expenses</option>
+                        <option value="death">Family Crisis — 2 Months Without Income</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>4. Strategy Lab</h2>
+            <p>Compare legitimate financial strategies. There is no universally “best” answer — each strategy trades speed, liquidity, and resilience differently.</p>
+
+            <div class="strategy-grid">
+                <label><input type="checkbox" class="strategy" value="aggressive" checked> Aggressive Debt</label>
+                <label><input type="checkbox" class="strategy" value="balanced" checked> Balanced</label>
+                <label><input type="checkbox" class="strategy" value="emergency" checked> Emergency Fund First</label>
+                <label><input type="checkbox" class="strategy" value="avalanche" checked> Debt Avalanche</label>
+                <label><input type="checkbox" class="strategy" value="snowball" checked> Debt Snowball</label>
+            </div>
+
+            <div class="control-row">
+                <label>Emergency Fund Target (months of expenses)
+                    <input type="range" id="emergencyTarget" min="1" max="12" value="3">
+                    <span id="emergencyTargetVal">3 months</span>
+                </label>
+                <label>Extra Monthly Debt Budget
+                    <input type="range" id="strategyBudget" min="0" max="100" value="50">
+                    <span id="strategyBudgetVal">50%</span>
+                </label>
+            </div>
+
+            <button id="compareBtn">Compare Strategies</button>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Strategy</th>
+                        <th>Debt-Free</th>
+                        <th>Total Interest</th>
+                        <th>Ending Savings</th>
+                        <th>Worst Shock</th>
+                        <th>Resilience</th>
+                    </tr>
+                    </thead>
+                    <tbody id="strategyTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>5. Strategy Recommendation</h2>
+            <div id="recommendation"></div>
+        </div>
+
+        <div class="card">
+            <h2>6. What Changes the Outcome?</h2>
+            <div id="insights"></div>
+            <p class="disclaimer">Educational simulation only. Results are model outputs, not financial advice. Real loans may include fees, capitalization rules, taxes, insurance, and contractual terms not represented here.</p>
+        </div>
+    </section>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
