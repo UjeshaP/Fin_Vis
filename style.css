@@ -456,7 +456,13 @@ button:focus-visible {
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
 
-    overflow: hidden;
+    /* IMPORTANT:
+       Tooltips need to escape the metric card */
+    overflow: visible;
+
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
 }
 
 .metrics-grid div::before {
