@@ -84,7 +84,19 @@
 <div class="mc-metric"><span>Debt-free probability</span><strong id="mcDebtFreeProb">—</strong></div>
 <div class="mc-metric"><span>Failure probability</span><strong id="mcFailureProb">—</strong></div>
 <div class="mc-metric"><span>Median debt-free time</span><strong id="mcMedianYears">—</strong></div>
-<div class="mc-metric"><span>Median ending savings</span><strong id="mcMedianSavings">—</strong></div>
+<div class="metric-card">
+    <span>
+        Probability of Exhausting Savings
+        <span class="tooltip-icon" tabindex="0">
+            ?
+            <span class="tooltip-content">
+                The percentage of simulated futures in which your liquid savings
+                fall to $0 or below at some point during the simulation.
+            </span>
+        </span>
+    </span>
+    <strong id="mcSavingsExhaustion">0%</strong>
+</div>
 </div><div class="distribution"><div><div class="distribution-head"><h3>Debt-free outcomes</h3><span>Simulated outcomes</span></div><div id="histogram" class="histogram"></div></div><div class="interpretation" id="mcInterpretation"></div></div></div>
 </section>
 
