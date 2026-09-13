@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A clarity-first simulator for testing whether a loan plan can survive financial shocks.">
+  <meta name="theme-color" content="#0b1720">
+  <title>Loan Resilience | Stress-test your plan</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top" aria-label="Loan Resilience home">
+        <span class="brand-mark" aria-hidden="true">LR</span>
+        <span>Loan Resilience</span>
+      </a>
+      <span class="topbar-note">Stress-test your plan before life does.</span>
+    </div>
+  </header>
+
+  <main id="top" class="container">
+    <section class="hero">
+      <div class="hero-copy-wrap">
+        <p class="eyebrow">FINANCIAL RESILIENCE SIMULATOR</p>
+        <h1>Can your financial plan<br><span>survive the unexpected?</span></h1>
+        <p class="hero-copy">Start with a simple financial picture. Then test it against the four D's—Disease, Death, Divorce, and Disaster—and economic shocks that can change the numbers underneath your plan.</p>
+        <div class="hero-note"><span>✦</span> Educational modeling tool · Not financial advice</div>
+      </div>
+      <div class="hero-promise" aria-label="How the simulator works">
+        <span class="promise-number">01</span><strong>Build</strong><span>your baseline</span>
+        <span class="promise-arrow">→</span>
+        <span class="promise-number">02</span><strong>Stress-test</strong><span>your plan</span>
+        <span class="promise-arrow">→</span>
+        <span class="promise-number">03</span><strong>Improve</strong><span>the weak point</span>
+      </div>
+    </section>
+
+    <section class="card" id="profileSection">
+      <div class="section-heading">
+        <div class="section-title"><span class="step">01</span><h2>Build your plan</h2></div>
+        <p>Use your current numbers. The model does the rest.</p>
+      </div>
+
+      <div class="form-grid">
+        <label class="field">
+          <span class="field-label">Loan amount <button type="button" class="tip" aria-label="What is loan amount?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">The current principal balance of the loan you want to model.</span></button></span>
+          <span class="input-wrap"><span>$</span><input id="GAmt" type="number" min="0" inputmode="decimal" placeholder="200,000"></span>
+        </label>
+        <label class="field">
+          <span class="field-label">Annual interest rate <button type="button" class="tip" aria-label="What is annual interest rate?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">The annual rate charged on the loan. Enter 8.2 for 8.2%.</span></button></span>
+          <span class="input-wrap"><input id="GIr" type="number" min="0" step=".01" inputmode="decimal" placeholder="8.2"><span>%</span></span>
+        </label>
+        <label class="field">
+          <span class="field-label">Annual take-home income <button type="button" class="tip" aria-label="What is annual take-home income?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">Your after-tax annual income available to spend, save, or use for debt.</span></button></span>
+          <span class="input-wrap"><span>$</span><input id="GSal" type="number" min="0" inputmode="decimal" placeholder="120,000"></span>
+        </label>
+        <label class="field">
+          <span class="field-label">Monthly living expenses <button type="button" class="tip" aria-label="What are monthly living expenses?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">Recurring costs such as housing, food, transportation, utilities, and insurance.</span></button></span>
+          <span class="input-wrap"><span>$</span><input id="GCol" type="number" min="0" inputmode="decimal" placeholder="4,000"></span>
+        </label>
+        <label class="field">
+          <span class="field-label">Current savings <button type="button" class="tip" aria-label="What is current savings?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">Liquid savings available before the simulation begins.</span></button></span>
+          <span class="input-wrap"><span>$</span><input id="Gsav" type="number" min="0" inputmode="decimal" placeholder="10,000"></span>
+        </label>
+        <label class="field">
+          <span class="field-label">Annual salary growth <button type="button" class="tip" aria-label="What is annual salary growth?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">Your expected average annual income growth. The stochastic simulator varies this around your assumption.</span></button></span>
+          <span class="input-wrap"><input id="salaryGrowth" type="number" step=".1" inputmode="decimal" value="3"><span>%</span></span>
+        </label>
+        <label class="field">
+          <span class="field-label">Annual inflation <button type="button" class="tip" aria-label="What is annual inflation?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">Your expected annual growth in living costs. Simulated futures vary this assumption.</span></button></span>
+          <span class="input-wrap"><input id="inflationRate" type="number" min="0" step=".1" inputmode="decimal" value="3"><span>%</span></span>
+        </label>
+        <label class="field">
+          <span class="field-label">Simulation horizon <button type="button" class="tip" aria-label="What is simulation horizon?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">How many years into the future the model projects your plan.</span></button></span>
+          <select id="horizon"><option>5</option><option selected>10</option><option>15</option><option>20</option><option>30</option></select>
+        </label>
+        <label class="field">
+          <span class="field-label">Interest model <button type="button" class="tip" aria-label="What is interest model?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">Fixed keeps the rate constant. Variable lets simulated futures vary the rate around your starting assumption.</span></button></span>
+          <select id="interestType"><option value="fixed" selected>Fixed rate</option><option value="variable">Variable rate</option></select>
+        </label>
+        <label class="field">
+          <span class="field-label">Emergency fund target <button type="button" class="tip" aria-label="What is emergency fund target?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">The number of months of living expenses you want to keep in liquid savings as a reserve.</span></button></span>
+          <select id="emergencyTarget"><option>1</option><option selected>3</option><option>6</option><option>9</option><option>12</option></select>
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button class="primary" id="calculateBtn">Build my financial picture <span>→</span></button>
+        <p class="error" id="errorMessage" role="alert"></p>
+      </div>
+    </section>
+
+    <section class="card hidden" id="results">
+      <div class="section-heading">
+        <div class="section-title"><span class="step">02</span><h2>Understand your plan</h2></div>
+        <p>See the financial pressure points before introducing a shock.</p>
+      </div>
+
+      <div class="snapshot-grid">
+        <div class="metric"><span>Monthly take-home</span><strong id="monthlyIncome">—</strong></div>
+        <div class="metric"><span>Monthly expenses</span><strong id="monthlyExpenses">—</strong></div>
+        <div class="metric"><span>Monthly cash available <button type="button" class="tip" aria-label="What is monthly cash available?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">Income left after living expenses, before the modeled loan payment and savings allocation.</span></button></span><strong id="monthlyDisposable">—</strong><small>Before debt payment</small></div>
+        <div class="metric"><span>Required payment <button type="button" class="tip" aria-label="What is required payment?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">The estimated monthly payment needed to repay the loan over the model's standard 10-year payment period.</span></button></span><strong id="requiredPayment">—</strong></div>
+        <div class="metric"><span>Debt-to-income <button type="button" class="tip" aria-label="What is debt-to-income?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">DTI is the required loan payment divided by monthly take-home income. A higher DTI leaves less income for other needs.</span></button></span><strong id="dti">—</strong></div>
+        <div class="metric"><span>Emergency reserve <button type="button" class="tip" aria-label="What is emergency reserve?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">Your current liquid savings expressed as months of current living expenses.</span></button></span><strong id="reserveMonths">—</strong><small id="reserveDollars">—</small></div>
+      </div>
+
+      <div class="resilience-panel">
+        <div class="score-block">
+          <p class="eyebrow">BASELINE RESILIENCE <button type="button" class="tip tip-invert" aria-label="How is resilience calculated?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">A modeled 0–100 score combining liquidity, debt-payment room, and the plan's ability to absorb disruption. It is a model indicator, not a standard financial score.</span></button></p>
+          <div class="score-row"><strong id="resilienceScore">—</strong><span id="resilienceLabel">—</span></div>
+          <p id="resilienceText">—</p>
+        </div>
+        <div class="mini-bars">
+          <div class="bar-row"><span>Liquidity <button type="button" class="tip" aria-label="What is liquidity?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">How well your liquid savings can cover the modeled reserve target.</span></button></span><div class="bar-track"><i id="liquidityBar"></i></div><b id="liquidityScore">—</b></div>
+          <div class="bar-row"><span>Debt-payment room <button type="button" class="tip" aria-label="What is debt-payment room?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">A higher score means the required payment consumes a smaller share of modeled monthly income.</span></button></span><div class="bar-track"><i id="debtBar"></i></div><b id="debtScore">—</b></div>
+          <div class="bar-row"><span>Shock tolerance <button type="button" class="tip" aria-label="What is shock tolerance?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">A modeled measure of how much reserve and debt progress your plan has when disruption occurs.</span></button></span><div class="bar-track"><i id="shockBar"></i></div><b id="shockScore">—</b></div>
+        </div>
+      </div>
+      <div class="vulnerability-callout"><span class="callout-icon">!</span><div><p class="eyebrow">START HERE</p><strong id="vulnerabilityTitle">—</strong><p id="vulnerabilityText">—</p></div></div>
+    </section>
+
+    <section class="card hidden" id="stressSection">
+      <div class="section-heading">
+        <div class="section-title"><span class="step">03</span><h2>Stress-test your plan</h2></div>
+        <p>See what happens when life or the economy changes.</p>
+      </div>
+
+      <div class="stress-tabs" role="tablist" aria-label="Four D stress tests">
+        <button class="stress-tab active" data-event="disease" role="tab"><span>01</span><b>Disease</b><small>Medical expense</small></button>
+        <button class="stress-tab" data-event="death" role="tab"><span>02</span><b>Death</b><small>Income disruption</small></button>
+        <button class="stress-tab" data-event="divorce" role="tab"><span>03</span><b>Divorce</b><small>Household restructure</small></button>
+        <button class="stress-tab" data-event="disaster" role="tab"><span>04</span><b>Disaster</b><small>Major expense</small></button>
+      </div>
+
+      <div class="stress-controls">
+        <label class="field"><span class="field-label">Scenario <button type="button" class="tip" aria-label="What is a stress test?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">A stress test changes one or more financial assumptions to see whether your plan remains workable under disruption.</span></button></span>
+          <select id="scenarioSelect">
+            <option value="disease">Disease — $4,500 emergency expense</option>
+            <option value="death">Death — 2 months of lost income</option>
+            <option value="divorce">Divorce — 50% permanent expense increase</option>
+            <option value="disaster">Disaster — $3,000 emergency expense</option>
+            <option value="recession2008">2008-style recession — severe income shock</option>
+            <option value="shock2020">2020-style shock — temporary income disruption</option>
+            <option value="inflation">High inflation — expenses accelerate</option>
+            <option value="none">Baseline — no shock</option>
+          </select>
+        </label>
+        <button class="secondary" id="stressBtn">Run stress test <span>→</span></button>
+      </div>
+      <div id="stressResult" class="stress-result" aria-live="polite"></div>
+    </section>
+
+    <section class="card hidden" id="simulationSection">
+      <div class="section-heading">
+        <div class="section-title"><span class="step">04</span><h2>Explore possible futures</h2></div>
+        <p>Move beyond one forecast and see how often your plan fails.</p>
+      </div>
+
+      <div class="simulation-intro">
+        <div><p class="eyebrow">STOCHASTIC SIMULATION</p><h3>What if the future doesn't follow your assumptions?</h3><p>The model varies income growth, inflation, interest rates, and the timing of disruptive events across many simulated paths. These are modeled possibilities—not predictions.</p></div>
+        <label class="compact-select"><span>Number of futures</span><select id="simulationCount"><option>500</option><option selected>1000</option><option>2500</option><option>5000</option></select></label>
+      </div>
+
+      <div class="historical-header"><div><h3>Historical-style scenarios</h3><p>Use named environments as reference points, not exact recreations of history.</p></div></div>
+      <div class="historical-grid">
+        <button class="history-card" data-history="shock2020"><span class="history-year">2020</span><b>2020-style shock</b><span>Temporary income disruption and a one-time expense.</span><em>Run scenario →</em></button>
+        <button class="history-card" data-history="recession2008"><span class="history-year">2008</span><b>2008-style recession</b><span>Prolonged income pressure with higher expenses.</span><em>Run scenario →</em></button>
+        <button class="history-card" data-history="inflation"><span class="history-year">INFLATION</span><b>High-inflation environment</b><span>Living costs accelerate beyond the baseline.</span><em>Run scenario →</em></button>
+        <button class="history-card" data-history="none"><span class="history-year">BASELINE</span><b>No named shock</b><span>Your assumptions without an added disruption.</span><em>Run scenario →</em></button>
+      </div>
+
+      <button class="primary outline" id="monteCarloBtn">Simulate 1,000 possible futures <span>→</span></button>
+      <p id="mcStatus" class="status" aria-live="polite"></p>
+
+      <div id="mcResults" class="hidden">
+        <div class="mc-grid">
+          <div class="mc-metric"><span>Debt-free probability</span><strong id="mcDebtFreeProb">—</strong><small>Clears debt within the horizon</small></div>
+          <div class="mc-metric"><span>Failure probability</span><strong id="mcFailureProb">—</strong><small>Savings exhausted or debt remains</small></div>
+          <div class="mc-metric"><span>Median debt-free time</span><strong id="mcMedianYears">—</strong><small>Among futures that clear debt</small></div>
+          <div class="mc-metric"><span>Probability of exhausting savings <button type="button" class="tip" aria-label="What does probability of exhausting savings mean?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">The percentage of simulated futures in which liquid savings fall to $0 or below at some point during the simulation.</span></button></span><strong id="mcSavingsExhaustion">—</strong><small>At any point during the simulation</small></div>
+        </div>
+        <div class="distribution">
+          <div class="distribution-panel"><div class="distribution-head"><div><h3>Debt-free outcomes</h3><span>Among simulated futures that clear the loan</span></div><span class="legend-dot"></span></div><div id="histogram" class="histogram"></div><div class="histogram-axis"><span>Earlier</span><span>Later</span></div></div>
+          <div class="interpretation" id="mcInterpretation"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card hidden" id="actionSection">
+      <div class="section-heading">
+        <div class="section-title"><span class="step">05</span><h2>Improve your plan</h2></div>
+        <p>Change the weak point and see whether the model responds.</p>
+      </div>
+
+      <div class="action-grid">
+        <div class="action-copy">
+          <p class="eyebrow">YOUR BIGGEST VULNERABILITY</p>
+          <h3 id="vulnerabilityTitleAction">—</h3>
+          <p id="vulnerabilityTextAction">Use the controls to test a more resilient version of your plan.</p>
+          <div class="action-rule"><span></span><small>Try a change → recalculate → compare</small></div>
+        </div>
+        <div class="tweak-panel">
+          <label class="slider-field"><span>Emergency savings target <button type="button" class="tip" aria-label="What is emergency savings target?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">The reserve target, measured in months of living expenses. Increasing it prioritizes liquidity.</span></button></span><div class="slider-line"><input id="tweakEmergency" type="range" min="1" max="12" value="3"><output id="tweakEmergencyVal">3 months</output></div></label>
+          <label class="slider-field"><span>Extra monthly debt allocation <button type="button" class="tip" aria-label="What is extra monthly debt allocation?" aria-expanded="false"><span aria-hidden="true">?</span><span class="tip-box">The share of cash left after the reserve target is addressed that is directed toward debt rather than remaining liquid.</span></button></span><div class="slider-line"><input id="tweakDebt" type="range" min="0" max="100" value="30"><output id="tweakDebtVal">30%</output></div></label>
+          <button class="secondary full" id="applyTweakBtn">Recalculate resilience <span>→</span></button>
+        </div>
+      </div>
+      <div id="tweakResult" class="tweak-result hidden" aria-live="polite"></div>
+    </section>
+
+    <details class="methodology">
+      <summary><span>Methodology & definitions</span><span class="summary-plus">+</span></summary>
+      <div class="method-grid">
+        <div><h3>Monthly cash-flow model</h3><p>Income, expenses, interest, debt payments, and liquid savings update each month across the chosen horizon.</p></div>
+        <div><h3>Stochastic simulation</h3><p>Each future samples economic assumptions and can introduce a disruption, producing a distribution rather than a single forecast.</p></div>
+        <div><h3>Historical-style scenarios</h3><p>Named scenarios are simplified stress environments inspired by historical conditions; they do not recreate every detail of the actual events.</p></div>
+        <div><h3>Failure definition</h3><p>A simulated run is classified as a failure if liquid savings are exhausted or the modeled debt is not cleared within the selected horizon.</p></div>
+        <div><h3>Resilience score</h3><p>The 0–100 score is an internal model indicator combining liquidity, debt-payment room, and shock tolerance. It is not a standardized financial rating.</p></div>
+        <div><h3>Educational use</h3><p>Results depend on the assumptions you enter. Use the tool to explore relationships and tradeoffs, not to make a financial decision by itself.</p></div>
+      </div>
+    </details>
+  </main>
+
+  <footer><span>Loan Resilience</span><span>Educational modeling tool · Not financial advice</span></footer>
+  <script src="script.js"></script>
+</body>
+</html>
